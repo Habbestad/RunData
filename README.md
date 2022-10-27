@@ -14,10 +14,12 @@ timestamp.cpp - Her er kun hjelpeklassen TimeStamp, som brukes for å holde styr
 test.cpp - Her tester jeg nye ting. Neste prosjekt er å plotte en oversikt over en lengre periode med løpeturer, så akkurat nå har jeg
 testet hvordan man kan samle og sortere en samling løpeturer fra mappen hvor filene ligger.
 
+setup.py - Setup for å bygge Cython-utvidelse.
+
 runclasses.pxd - Er som en headerfil for Cython, så her er det bare deklarasjoner av de tingene jeg vil bruke i Python.
 
-runclasses.pyx - Cython fil som bare wrapper C++ klassene til Pythonklasser.
+runclasses.pyx - Cython fil som wrapper C++ klassene til Pythonklasser.
 
-plot_test.py - Første test av å plotte en enkel løpetur. Se bilde.
+plot_test.py - Test av å plotte en enkel løpetur. Se bilde.
 
 Headerfilene (.h) består bare av deklarasjoner av klassene/funksjonene i tilsvarende .cpp fil.
