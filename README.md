@@ -12,7 +12,7 @@ StandardRun holder lister av data (tidspunkt, distanse, fart etc). Workout er en
 timestamp.cpp - Her er kun hjelpeklassen TimeStamp, som brukes for å holde styr på datoer og tidspunkt.
 
 test.cpp - Her tester jeg nye ting. Neste prosjekt er å plotte en oversikt over en lengre periode med løpeturer, så akkurat nå har jeg
-testet hvordan man kan samle og sortere en samling løpeturer.
+testet hvordan man kan samle og sortere en samling løpeturer fra mappen hvor filene ligger.
 
 runclasses.pxd - Er som en headerfil for Cython, så her er det bare deklarasjoner av de tingene jeg vil bruke i Python.
 
