@@ -20,6 +20,8 @@ runclasses.pxd - Er som en headerfil for Cython, så her er det bare deklarasjon
 
 runclasses.pyx - Cython fil som wrapper C++ klassene til Pythonklasser.
 
-plot_test.py - Test av å plotte en enkel løpetur. Se ![bilde](test.png).
+plot_test.py - Test av å plotte en enkel løpetur. Her er et eksempel:
+
+![bilde](test.png)
 
 Headerfilene (.h) består bare av deklarasjoner av klassene/funksjonene i tilsvarende .cpp fil.
