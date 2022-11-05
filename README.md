@@ -14,7 +14,8 @@ Why C++/Python/Cython? I started the project in C++, and I already knew the basi
 are probably many nice plotting libraries in C++, I thought it would be cool to learn how to combine C++ and Python anyway. 
 
 
-The C++ files:
+
+C++ files:
 
 Headers: reader.h, runclasses.h, timestamp.h 
 
@@ -30,6 +31,8 @@ timestamp.cpp - A class for keeping track of timestamps and comparing timestamps
 
 test.cpp - I just use this to test the things I make. Right now I tested a way to collect several BasicRun's, ultimately to plot a 
            period of runs
+
+
 
 
 Python/Cython files:
