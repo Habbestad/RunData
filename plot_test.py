@@ -2,8 +2,6 @@ import py_wrappers as wr
 import matplotlib.pyplot as plt
 import numpy as np
 
-run = wr.PyStandardRun(b"/users/erikhabbestad/cpp_prosjekter/RunData/ctx_reader/files_by_date/2021-10-05T05:41:33.000Z.tcx")
-
 
 # speedToPace() transforms a number representing speed (m/s)
 # into a string with corresponding min/km
@@ -122,6 +120,9 @@ def plotRun(a_run, laplength = 1000):
     fig.tight_layout()
     plt.show()
 
+
+# test:
+run = wr.PyStandardRun(b"/users/erikhabbestad/cpp_prosjekter/RunData/ctx_reader/files_by_date/2021-10-05T05:41:33.000Z.tcx")    
 plotRun(run)
 
 
