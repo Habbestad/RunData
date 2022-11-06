@@ -20,8 +20,8 @@ private:
 
 public:
     BasicRun();
-    BasicRun(std::ifstream& infile);
-    BasicRun(const std::string& str);
+    BasicRun(std::ifstream& infile);    // Initialize with filestream object
+    BasicRun(const std::string& str);   // or wiht directory string
 
     std::string getId()  const;
     float getTotalTime() const;
@@ -40,25 +40,27 @@ protected:
     std::vector<float> m_altitudes;
     std::vector<float> m_speeds;
 
+    // We want collect user-defined laps (based on distance)
     struct Lap
     {
     float distance;
     float time;
     };
-
+    
+    // This function collects the lap data
     std::vector<Lap> getLaps(int laplength = 1000);
 
 public:
-    StandardRun();
-    StandardRun(std::ifstream& infile);
-    StandardRun(const std::string& str);
+    StandardRun();                          
+    StandardRun(std::ifstream& infile);     // Initialize with filestream object
+    StandardRun(const std::string& str);    // or with directory string
 
     std::string getId() const;
     std::vector<int> getTimes();
     std::vector<float> getDistances();
     std::vector<float> getSpeeds();
     std::vector<float> getAltitudes();
-    std::vector<float> getLapTimes(int k = 1000);
+    std::vector<float> getLapTimes(int k = 1000);   
     std::vector<float> getLapDistances(int k = 1000);
 
     std::string getDate() const;
