@@ -21,7 +21,7 @@ private:
 public:
     BasicRun();
     BasicRun(std::ifstream& infile);    // Initialize with filestream object
-    BasicRun(const std::string& str);   // or wiht directory string
+    BasicRun(const std::string& str);   // or with path string
 
     std::string getId()  const;
     float getTotalTime() const;
@@ -53,7 +53,7 @@ protected:
 public:
     StandardRun();                          
     StandardRun(std::ifstream& infile);     // Initialize with filestream object
-    StandardRun(const std::string& str);    // or with directory string
+    StandardRun(const std::string& str);    // or with path string
 
     std::string getId() const;
     std::vector<int> getTimes();
