@@ -37,26 +37,7 @@ BasicRun::BasicRun(std::ifstream& infile)
 BasicRun::BasicRun(const std::string& str)
 {
     std::ifstream infile { str };
-
-    m_id = getData(infile, "Id", "Id");
-
-    std::string time_str;
-    std::string dist_str;
-    std::string test_str;
-
-    while(test_str != "Done")
-    {
-        test_str = getData(infile, "Time", "Trackpoint", true);
-        if(test_str != "Done")
-        {
-            time_str = test_str;
-            dist_str = getData(infile, "DistanceMeters", "Trackpoint");
-        }
-
-    }
-
-    m_totalTime = static_cast<float>(TimeStamp(time_str).secondsPast(TimeStamp(m_id).secondsPast(0)))/60;
-    m_totalDist = std::stof(dist_str)/1000;
+    *this = BasicRun(infile);
 
 }
 
