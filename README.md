@@ -1,7 +1,6 @@
 # RunData
 
-What: Visualizer of data from my runs, using files produced by a Garmin watch. Please note that this is work in progress, so many things
-are probably a bit "bloated" and suboptimal.  The output of plot_test.py looks like this:
+What: Visualizer of data from my runs, using files produced by a Garmin watch. The output of plot_test.py looks like this:
 
 ![bilde](test.png)
 
