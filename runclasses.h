@@ -98,6 +98,7 @@ public:
     std::vector<float> getDistances();
     std::vector<float> getSpeeds();
     std::vector<float> getAltitudes();
+    std::vector<float> getHR();
     int getTotalTime();
     float getTotalDistance();
 };

@@ -47,6 +47,9 @@ cdef class PyRun:
 
     def getSpeeds(self):
         return self.run.getSpeeds()
+    
+    def getHR(self):
+        return self.run.getHR()
 
     def getTotalTime(self):
         return self.run.getTotalTime()

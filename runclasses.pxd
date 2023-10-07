@@ -34,6 +34,7 @@ cdef extern from "runclasses.h":
         vector[float] getDistances()
         vector[float] getSpeeds()
         vector[float] getAltitudes()
+        vector[float] getHR()
         int getTotalTime()
         float getTotalDistance()
         Run getSectionByTime( int startTime, int endTime, const string& sectionName, bool cumulative)

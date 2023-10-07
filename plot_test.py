@@ -47,14 +47,13 @@ class RunPlotter:
         self.axs[pos].yaxis.set_major_formatter(formatter)
 
     def plotTable(self, pos = 0, loc = 'top'):
-        rows = ['Total Time', 'Total Distance', 'Avg. pace', 'Avg. HR', 'Elevation']
+        rows = ['Total Time', 'Total Distance', 'Avg. pace', 'Avg. HR']
         time = self.run.getTotalTime()
         distance = self.run.getTotalDistance()
         values = [str(round(np.floor(time/60) + (time/60 - np.floor(time/60))*0.6,2)) + " min",
                   str(round(distance/1000, 2)) + " km", 
                   speedToPaceString(distance/time) + " min/km", 
-                  0.0, 
-                  0.0]
+                  np.round(np.average(self.run.getHR()),2) ]
         table = self.axs[pos].table(cellText = [values], colLabels = rows, loc = loc)
         table.auto_set_font_size(False)
         table.set_fontsize(10)

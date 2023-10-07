@@ -22,8 +22,6 @@ RunSummary::RunSummary(std::ifstream& infile)
     std::string dist_str;
     std::string test_str;
 
-
-
     while(test_str != "Done")
     {
         /* See readers.h and readers.cpp to understand getData() */
@@ -235,7 +233,6 @@ std::vector<float> Run::getDistances()
     return distances;  
 }
 
-
 std::vector<float> Run::getSpeeds()
 { 
     std::vector<float> speeds(m_tracks.size());
@@ -250,6 +247,14 @@ std::vector<float> Run::getAltitudes()
     std::transform(m_tracks.begin(), m_tracks.end(), altitudes.begin() ,[](const Track& track){ return track.m_altitude; }  );
 
     return altitudes;
+ }
+
+ std::vector<float> Run::getHR()
+ {
+    std::vector<float> heartRates(m_tracks.size());
+    std::transform(m_tracks.begin(), m_tracks.end(), heartRates.begin() ,[](const Track& track){ return track.m_heartRate; }  ); 
+
+    return heartRates;
  }
 
 int Run::getTotalTime(){ return getTimes().back(); }
