@@ -83,8 +83,6 @@ public:
     Run(const std::string& str);    // or with path string
     Run(const std::vector<Track>& tracks, const std::string& id); // or custom
 
-    void operator=(Run run);
-
     /* Manually extract a section from your run, by specifying start and end points by time or distance.
        Tracks are not evenly distributed, so the functions takess the closest values. As a consequence, a
        a section can be slightly longer or shorter than wanted. */

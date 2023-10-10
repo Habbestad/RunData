@@ -115,12 +115,6 @@ Run::Run(const std::vector<Track>& tracks, const std::string& id)
     this->m_tracks = tracks;
 }
 
-void Run::operator=(Run run)
-    {
-        this->m_id = run.m_id;
-        this->m_tracks = run.m_tracks;
-    }
-
 TrackVecIt Run::findClosestTrackByTime(int measure)
 {
     TrackVecIt it;
