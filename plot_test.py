@@ -110,6 +110,7 @@ plotter = RunPlotter(run, ax)
 plotter.plotSpeed()
 plotter.plotTable()
 plotter.plotLaps(pos = 1)
+plotter.plotAltitude()
 plt.show()
 
 # ---- An interactive figure ----
