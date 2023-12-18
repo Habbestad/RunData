@@ -21,12 +21,6 @@ cdef class PyLapSummary:
         return self.run.print()
 
 
-#cdef class PyTrack:
-#    cdef Track track
-#
-#    def __init__(self, time, dist, speed, alt, hr):
-#        self.track(time, dist, speed, alt, hr)
-
 cdef class PyRun:
     cdef Run run
 
@@ -75,7 +69,7 @@ cdef class PyRun:
         lapDistances = []
         totalDist = self.getTotalDistance()
         k = 0
-        name = k.to_bytes(2,'big')
+        name = k.to_bytes(2, 'big')
         while(k*lapLength <= totalDist):
             k += 1
             lapTimes.append(self.getSectionByDistance((k-1)*lapLength, k*lapLength, name).getTotalTime()  )

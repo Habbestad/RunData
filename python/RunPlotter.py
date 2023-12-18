@@ -1,4 +1,5 @@
-import py_wrappers as wr
+from pyRunData import PyRun
+
 import matplotlib.pyplot as plt
 import matplotlib.widgets as mwidgets
 import numpy as np
@@ -24,7 +25,7 @@ def lapSpeedAndPace(lap_times, lap_distances):
     
     return lap_speeds, lap_pace_string
 
-
+# Extension of Matplotlib.Axes, to plot data from a run.
 class RunPlotter:
 
     def __init__(self, run, axs):
@@ -100,43 +101,7 @@ class RunPlotter:
         formatter = plt.FuncFormatter(lambda speed, pos : speedToPaceString(speed))
         self.axs[pos].yaxis.set_major_formatter(formatter) # Want min/km instead of m/s here as well (see above)
 
-# ---- Examples ------
-#Load a run:
-run = wr.PyRun(b"/Users/erikhabbestad/Documents/prosjekter/RunData/tcx_files/activity_12087970552.tcx")
 
-# --- Simple figure with 2 Axes ---
-fig, ax = plt.subplots(2,1)
-plotter = RunPlotter(run, ax)
-plotter.plotSpeed()
-plotter.plotTable()
-plotter.plotLaps(pos = 1)
-plotter.plotAltitude()
-plt.show()
-
-# ---- An interactive figure ----
-# To try: add some buttons to turn on and off the various plots.
-fig, ax = plt.subplots(2,2)
-plotter = RunPlotter(run, ax)
-
-def plotSpan(t1, t2):
-    if t1 == t2:
-        return
-    ax[0,1].clear()
-    ax[1,1].clear()
-    section = run.getSectionByTime(t1*60, t2*60, b"test")  #Time must be in seconds here
-    sec = RunPlotter(section, ax)
-    sec.plotSpeed(pos = (0,1))
-    sec.plotLaps(pos = (1,1))
-    sec.plotTable(pos = (0,1))
-
-span = mwidgets.SpanSelector(ax[0,0], plotSpan, 'horizontal', interactive = True,
-                             props=dict(facecolor='blue', alpha=0.5))
-        
-plotter.plotSpeed(pos = (0,0))
-plotter.plotTable(pos = (0,0))
-plotter.plotLaps(pos = (1,0))
-
-plt.show()
 
 
     
