@@ -11,73 +11,13 @@
 
 using TrackVecIt = std::vector<Track>::iterator;
 
-// --- Implementation of class RunSummary ---
-
-RunSummary::RunSummary() {}
-
-RunSummary::RunSummary(std::ifstream& infile)
-: m_id { getData(infile, "Id", "Id") }
-{
-    std::string time_str;
-    std::string dist_str;
-    std::string test_str;
-
-    while(test_str != "Done")
-    {
-        /* See readers.h and readers.cpp to understand getData() */
-        test_str = getData(infile, "Time", "Trackpoint", true);
-        if(test_str != "Done")
-        {
-            time_str = test_str;
-            dist_str = getData(infile, "DistanceMeters", "Trackpoint");
-        }
-
-    }
-
-    /* TimeStamp is in timestamp.h and timestamp.cpp */
-    m_runTime = static_cast<float>(TimeStamp(time_str).secondsPast(TimeStamp(m_id).secondsPast(0)))/60;
-    m_runDist = std::stof(dist_str)/1000;
-}
-
-RunSummary::RunSummary(const std::string& str)
-{
-    std::ifstream infile { str };
-    *this = RunSummary(infile);
-}
-
-RunSummary::RunSummary(float totalTime, float totalDist, const std::string& lapID)
-: m_runTime {totalTime}, m_runDist {totalDist}, m_id {lapID}
-{}
-
-std::string RunSummary::getId()  const { return m_id; }
-float RunSummary::getRunTime() const { return m_runTime; }
-float RunSummary::getRunDist() const { return m_runDist; }
-float RunSummary::getAverageSpeed() const { return m_runDist/m_runTime; }
-
-void RunSummary::print() const
-{
-    std::cout << m_id<< ", " << m_runTime << ", " << m_runDist << '\n';
-}
-
-// --- Implementation of class Track ---
-
-Track::Track()
-: m_time {0}, m_distance {0.0}, m_altitude {0.0}, m_speed {0.0}, m_heartRate {0.0}
-{}
-
-Track::Track(int time, float distance, float altitude, float speed, float heartRate)
-: m_time {time}, m_distance {distance}, m_altitude {altitude}, m_speed {speed}, m_heartRate {heartRate}
-{}
-
 // --- Implementation of class Run ---
-
-Run::Run(){}
 
 Run::Run(std::ifstream& infile)
 {
     Track track;
 
-    std::string id {getData(infile,"Id")};
+    std::string id {getData(infile, "Id")};
     m_id = id;
 
     /* TimeStamp is in timestamp.h and timestamp.cpp */
@@ -98,7 +38,6 @@ Run::Run(std::ifstream& infile)
             track.m_altitude = std::stof(getData(infile, "AltitudeMeters", "Trackpoint", false));   
 
             m_tracks.push_back(track);
-
         }
     }
 }
@@ -140,13 +79,6 @@ TrackVecIt Run::findClosestTrackByDistance(int measure)
     {
         return it - 1;
     } 
-
-    // If two neighbouring iterators have the same distance, choose the latter.
-    // This is in case there is a tracking gap (big difference in time, but no difference in distance)
-    if(it->m_distance == (it+1)->m_distance)
-    {
-        return it + 1;
-    }
 
     // Check if the last prior iterator is closer than it, and return the closest:
     return (it->m_distance + (it-1)->m_distance > 2*measure) ? it - 1 : it;
@@ -255,6 +187,7 @@ int Run::getTotalTime(){ return getTimes().back(); }
 
 float Run::getTotalDistance(){ return getDistances().back(); }
 
+
 // --- Implementation of class Workout ---
 
 Workout::Workout(std::ifstream& infile) : Run(infile)
@@ -295,4 +228,53 @@ std::vector<int> Workout::getStartTimes()
 Run Workout::getLap(int lapNumber)
 {
     return getSection(m_lapIts.at(lapNumber), m_lapIts.at(lapNumber + 1), std::to_string(lapNumber), false);
+}
+
+
+// --- Implementation of class RunSummary ---
+
+RunSummary::RunSummary() {}
+
+RunSummary::RunSummary(std::ifstream& infile)
+: m_id { getData(infile, "Id", "Id") }
+{
+    std::string time_str;
+    std::string dist_str;
+    std::string test_str;
+
+    while(test_str != "Done")
+    {
+        /* See readers.h and readers.cpp to understand getData() */
+        test_str = getData(infile, "Time", "Trackpoint", true);
+        if(test_str != "Done")
+        {
+            time_str = test_str;
+            dist_str = getData(infile, "DistanceMeters", "Trackpoint");
+        }
+
+    }
+
+    /* TimeStamp is in timestamp.h and timestamp.cpp */
+    m_runTime = static_cast<float>(TimeStamp(time_str).secondsPast(TimeStamp(m_id).secondsPast(0)))/60;
+    m_runDist = std::stof(dist_str)/1000;
+}
+
+RunSummary::RunSummary(const std::string& str)
+{
+    std::ifstream infile { str };
+    *this = RunSummary(infile);
+}
+
+RunSummary::RunSummary(float totalTime, float totalDist, const std::string& lapID)
+: m_runTime {totalTime}, m_runDist {totalDist}, m_id {lapID}
+{}
+
+std::string RunSummary::getId()  const { return m_id; }
+float RunSummary::getRunTime() const { return m_runTime; }
+float RunSummary::getRunDist() const { return m_runDist; }
+float RunSummary::getAverageSpeed() const { return m_runDist/m_runTime; }
+
+void RunSummary::print() const
+{
+    std::cout << m_id<< ", " << m_runTime << ", " << m_runDist << '\n';
 }
