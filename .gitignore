@@ -1,0 +1,13 @@
+# generated stuff:
+build/
+__pycache__/
+*.so
+
+# settings:
+.vscode/
+
+# input:
+tcx_files/
+
+# other:
+test.cpp
