@@ -13,15 +13,13 @@ Here is an example of a plot in Python (see 'examples.py' in the 'python' folder
 
 For an overview take a look in the 'main/include' folder. 
 
-To build as a Python 3 module I write
-
-python3 setup.py build_ext --build-lib <build-directory>
-
-in the terminal.
-
 ### Motivation
 
 I don't want my watch to notify me every kilometer (a 'lap'), but I often want to look at my average lap paces after the run. However, turning of notifications also turns of the tracking, and so this project was born. I have some plans for more functionality as well, which there are some traces of in the code.
+
+### Disclainer
+
+This is very much a hobby project in developement. There is no error or exception handling. Also, for learning purposes, some parts are unnecessesarily (and probably sub-optimally) made from scratch.
 
 
 
