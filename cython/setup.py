@@ -7,7 +7,7 @@ extensions = Extension("pyRunData",
                        sourcefiles, 
                        language = "c++", 
                        extra_compile_args = ["-std=c++20"],
-                       include_dirs = ['../source', '../include'])
+                       include_dirs = ['../main/source', '../main/include'])
 
 setup(name = 'pyRunData', ext_modules=cythonize(extensions,compiler_directives={'language_level' : "3"}))
 
