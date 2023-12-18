@@ -1,8 +1,9 @@
 # generated stuff:
-build/
+cython/build/
 __pycache__/
 *.so
 pyRunData.cpp
+.DS_store
 
 # settings:
 .vscode/

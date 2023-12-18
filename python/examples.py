@@ -6,7 +6,7 @@ from RunPlotter import RunPlotter
 
 # ---- Examples ------
 #Load a run:
-run = PyRun(b"/Users/erikhabbestad/Documents/prosjekter/RunData/tcx_files/activity_11991473329.tcx")
+run = PyRun(b"../tcx_files/activity_11991473329.tcx")
 print(run)
 
 # --- Simple figure with 2 Axes ---
