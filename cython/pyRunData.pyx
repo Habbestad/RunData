@@ -1,25 +1,9 @@
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
-from runclasses cimport RunSummary, Run
+from runclasses cimport Run
 
 import numpy as np
-
-cdef class PyLapSummary:
-    cdef RunSummary run
-
-    def __init__(self, string dir):
-        self.run = RunSummary(dir)
-
-    def getRunTime(self):
-        return self.run.getRunTime()
-
-    def getRunDist(self):
-        return self.run.getRunDist()
-    
-    def print(self):
-        return self.run.print()
-
 
 cdef class PyRun:
     cdef Run run
