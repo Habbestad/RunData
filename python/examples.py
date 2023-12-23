@@ -14,7 +14,7 @@ fig, ax = plt.subplots(2,1)
 plotter = RunPlotter(run, ax)
 plotter.plotSpeed()
 plotter.plotTable()
-plotter.plotLaps(pos = 1)
+plotter.plotLaps(pos = 1, showLabels = True)
 plotter.plotAltitude()
 plt.show()
 
@@ -30,7 +30,7 @@ def plotSpan(t1, t2):
     section = run.getSectionByTime(t1*60, t2*60, b"test")  #Time must be in seconds here
     sec = RunPlotter(section, ax)
     sec.plotSpeed(pos = (0,1))
-    sec.plotLaps(pos = (1,1))
+    sec.plotLaps(pos = (1,1), showLabels = True)
     sec.plotTable(pos = (0,1))
 
 span = mwidgets.SpanSelector(ax[0,0], plotSpan, 'horizontal', interactive = True,

@@ -1,21 +1,18 @@
 #ifndef RUNCLASSES_H
 #define RUNCLASSES_H
 
-#include "readers.h"
+#include "tcxparsing.h"
 #include "timestamp.h"
 #include "track.h"
+#include "runsummary.h"
 
 #include <fstream>
-#include <iostream>
 #include <string>
 #include <filesystem>
 #include <vector>
 #include <algorithm>
 
 using TrackVecIt = std::vector<Track>::iterator;
-
-// Just a declaration, because Run has a method getRunSummary
-class RunSummary; 
 
 class Run 
 {
@@ -57,15 +54,17 @@ protected:
     std::string m_id;
     std::vector<Track> m_tracks;
 
-    /* Some convenience functions to find start and end of sections: */
-    TrackVecIt findClosestTrackByTime(int measure);         
-    TrackVecIt findClosestTrackByDistance(int measure);
-
     /* Extract a section by providing iterators to m_tracks */
     Run getSection(const TrackVecIt& first, 
                 const TrackVecIt& last, 
                 const std::string& sectionName,
                 bool cumulative = true);
+
+
+private:
+    /* Some convenience functions to find start and end of sections: */
+    TrackVecIt findClosestTrackByTime(int measure);         
+    TrackVecIt findClosestTrackByDistance(int measure);
 };
 
 
@@ -74,10 +73,6 @@ class Workout : public Run
     /* A Workout is a Run which also holds the laps defined in the .tcx file. Any .tcx file contains at least one lap (so 
        strictly speaking any Run can be seen as a Workout). The laps show up in the file according to the settings on the watch
        and/or if the file corresponds to a predefined workout. */
-private:
-    std::vector<TrackVecIt> m_lapIts;
-    std::vector<int> m_startTimes;
-
 public:
     Workout(std::ifstream& infile);
     Workout(const std::string& dir);
@@ -85,39 +80,10 @@ public:
     Run getLap(int lapNumber);
 
     std::vector<int> getStartTimes();
-};
-
-
-class RunSummary
-{
-    /* A RunSummary holds an ID, time and distance. It can be initialized from a .tcx file or manually.
-       It is also the return type of the Run method getRunSummary(), see below */
 
 private:
-    std::string m_id;
-    float m_runTime; //{0.0}; //in seconds
-    float m_runDist; //{0.0}; //in km
-
-public:
-    RunSummary();
-    RunSummary(std::ifstream& infile);    // Initialize with filestream object,
-    RunSummary(const std::string& str);   // or with path string,
-    RunSummary(float totalTime, float totalDist, const std::string& lapID); // or manually.
-
-    std::string getId()  const;
-    float getRunTime() const;
-    float getRunDist() const;
-    float getAverageSpeed() const;
-
-    void print() const;
-
-    friend class Run;
+    std::vector<TrackVecIt> m_lapIts;
+    std::vector<int> m_startTimes;
 };
 
-
 #endif
-
-
-// bool isStop(const TrackVecIt& it, int threshold = 30);
-/* Maybe make function that finds big gaps between tracks.
-    Use this to not get stupid results for average speed? */ 

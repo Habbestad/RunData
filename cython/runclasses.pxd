@@ -3,7 +3,7 @@ from libcpp.vector cimport vector
 from libcpp cimport bool
 
 cdef extern from "timestamp.cpp": pass
-cdef extern from "readers.cpp": pass
+cdef extern from "tcxparsing.cpp": pass
 cdef extern from "runclasses.cpp": pass
 cdef extern from "runsummary.cpp": pass
 

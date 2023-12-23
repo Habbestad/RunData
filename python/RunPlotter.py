@@ -68,7 +68,7 @@ class RunPlotter:
         ax2.tick_params(axis='y', labelcolor = color)
         ax2.plot(times, alt, color = color)
 
-    def plotLaps(self, laplength = 1000, pos = 0):
+    def plotLaps(self, laplength = 1000, pos = 0, showLabels = False):
         lap_times, lap_distances = self.run.getLaps(laplength)
 
         # want speed (m/s) for plot and pace (min/km) for labels
@@ -87,8 +87,8 @@ class RunPlotter:
             self.axs[pos].vlines(x_max, ymin = 0, ymax = cur_speed)
 
             # lap pace on top of lap line (but short laps don't need label):
-            if (x_max - x_min) > laplength/2:
-                self.axs[pos].text(x = x_min+200, y = cur_speed + 0.02, s=lap_pace_string[k])
+            if (showLabels and (x_max - x_min) > laplength/2):
+                self.axs[pos].text(x = x_min + 200, y = cur_speed + 0.02, s = lap_pace_string[k])
 
             self.axs[pos].fill_between([x_min, x_max], cur_speed, hatch = '/', facecolor = 'g', alpha = 0.4 ) # aesthetics
 

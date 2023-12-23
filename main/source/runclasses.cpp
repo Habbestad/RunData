@@ -1,4 +1,4 @@
-#include "readers.h"
+#include "tcxparsing.h"
 #include "runclasses.h"
 #include "timestamp.h"
 
@@ -17,7 +17,7 @@ Run::Run(std::ifstream& infile)
 {
     Track track;
 
-    std::string id {getData(infile, "Id")};
+    std::string id {tcxParsing::getData(infile, "Id")};
     m_id = id;
 
     /* TimeStamp is in timestamp.h and timestamp.cpp */
@@ -28,14 +28,14 @@ Run::Run(std::ifstream& infile)
     while(!done)
     {
         /* See readers.h and readers.cpp to understand getData() */
-        time_str = getData(infile, "Time", "Trackpoint", true);
+        time_str = tcxParsing::getData(infile, "Time", "Trackpoint", true);
         done = (time_str == "Done");
         if(!done)
         {
             track.m_time = TimeStamp(time_str).secondsPast(initial_time);            
-            track.m_distance = std::stof(getData(infile, "DistanceMeters", "Trackpoint", true));
-            track.m_speed = std::stof(getData(infile, "ns3:Speed", "Trackpoint", true));
-            track.m_altitude = std::stof(getData(infile, "AltitudeMeters", "Trackpoint", false));   
+            track.m_distance = std::stof(tcxParsing::getData(infile, "DistanceMeters", "Trackpoint", true));
+            track.m_speed = std::stof(tcxParsing::getData(infile, "ns3:Speed", "Trackpoint", true));
+            track.m_altitude = std::stof(tcxParsing::getData(infile, "AltitudeMeters", "Trackpoint", false));   
 
             m_tracks.push_back(track);
         }
@@ -200,7 +200,7 @@ Workout::Workout(std::ifstream& infile) : Run(infile)
     bool done = { false };
     while(!done)
     {
-        lapStartTime_str = getData(infile, "Time", "Lap StartTime", false);
+        lapStartTime_str = tcxParsing::getData(infile, "Time", "Lap StartTime", false);
         done = ("Done" == lapStartTime_str);
         if(!done)
         {
@@ -228,53 +228,4 @@ std::vector<int> Workout::getStartTimes()
 Run Workout::getLap(int lapNumber)
 {
     return getSection(m_lapIts.at(lapNumber), m_lapIts.at(lapNumber + 1), std::to_string(lapNumber), false);
-}
-
-
-// --- Implementation of class RunSummary ---
-
-RunSummary::RunSummary() {}
-
-RunSummary::RunSummary(std::ifstream& infile)
-: m_id { getData(infile, "Id", "Id") }
-{
-    std::string time_str;
-    std::string dist_str;
-    std::string test_str;
-
-    while(test_str != "Done")
-    {
-        /* See readers.h and readers.cpp to understand getData() */
-        test_str = getData(infile, "Time", "Trackpoint", true);
-        if(test_str != "Done")
-        {
-            time_str = test_str;
-            dist_str = getData(infile, "DistanceMeters", "Trackpoint");
-        }
-
-    }
-
-    /* TimeStamp is in timestamp.h and timestamp.cpp */
-    m_runTime = static_cast<float>(TimeStamp(time_str).secondsPast(TimeStamp(m_id).secondsPast(0)))/60;
-    m_runDist = std::stof(dist_str)/1000;
-}
-
-RunSummary::RunSummary(const std::string& str)
-{
-    std::ifstream infile { str };
-    *this = RunSummary(infile);
-}
-
-RunSummary::RunSummary(float totalTime, float totalDist, const std::string& lapID)
-: m_runTime {totalTime}, m_runDist {totalDist}, m_id {lapID}
-{}
-
-std::string RunSummary::getId()  const { return m_id; }
-float RunSummary::getRunTime() const { return m_runTime; }
-float RunSummary::getRunDist() const { return m_runDist; }
-float RunSummary::getAverageSpeed() const { return m_runDist/m_runTime; }
-
-void RunSummary::print() const
-{
-    std::cout << m_id<< ", " << m_runTime << ", " << m_runDist << '\n';
 }
