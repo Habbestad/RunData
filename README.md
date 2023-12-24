@@ -14,8 +14,7 @@ For an overview take a look in the 'main/include' folder.
 
 ### Disclaimer
 
-This is very much a hobby project in developement. It is probably easy to make it crash. For learning purposes most parts are unnecessesarily (and probably sub-optimally) made from scratch.
-
+This is very much a hobby project in developement. 
 
 
 
