@@ -8,6 +8,7 @@ Here is an example of a plot in Python (see 'examples.py' in the 'python' folder
 
 ![bilde](bilde.png)
 
+![](spanselector.gif)
 ### Documentation:
 
 For an overview take a look in the 'main/include' folder. 
