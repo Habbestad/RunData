@@ -6,7 +6,7 @@ RunData is a small c++ library made for extracting data from the .tcx files prod
 
 ### Examples
 
-A simple examle:
+A matplotlib visualisation of a run made by using the Python module:
 
 ![bilde](bilde.png)
 
