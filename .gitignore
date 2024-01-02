@@ -1,5 +1,6 @@
 # generated stuff:
 cython/build/
+main/testplot/build
 __pycache__/
 *.so
 pyRunData.cpp
