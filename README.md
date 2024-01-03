@@ -4,9 +4,17 @@
 
 RunData is a small c++ library made for extracting data from the .tcx files produced by my Garmin GPS watch. Using Cython, it can easily be compiled to a Python module, which is how I mainly use it. 
 
-Here is an example of a plot in Python (see 'examples.py' in the 'python' folder for the code):
+### Examples
+
+A matplotlib visualisation of a run made by using the Python module:
 
 ![bilde](bilde.png)
+
+An interactive example:
+
+![](spanselector.gif)
+
+The code for these are in the 'python' folder.
 
 ### Documentation:
 
