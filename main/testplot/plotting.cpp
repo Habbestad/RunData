@@ -5,11 +5,15 @@ int main()
 {
     Run run("../../../tcx_files/activity_11871637028.tcx");
 
-    auto x = run.getTimes();
-    auto y = run.getSpeeds();
-
+    Run section = run.getSectionByDistance(3000, 10200, " Intervals");
+    auto x = section.getDistances();
+    auto y = section.getSpeeds();
+    
     using namespace matplot;
-    plot(x,y);
+    plot(x, y);
+    title(section.getId());
+    xlabel("Distance (m)");
+    ylabel("Speed (m/s)");
     hold(on);
     show();
 
