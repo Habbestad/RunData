@@ -9,20 +9,17 @@
 #include <vector>
 #include <algorithm>
 
-//using TrackVecIt = std::vector<const Track>::iterator;
-
 // --- Implementation of class Run ---
 
 Run::Run(std::ifstream& infile)
 {
-    Track track;
-
     std::string id {tcxParsing::getData(infile, "Id")};
     m_id = id;
 
     /* TimeStamp is in timestamp.h and timestamp.cpp */
     int initial_time { TimeStamp(m_id).secondsPast(0) };
 
+    Track track;
     std::string time_str;
     bool done { false };
     while(!done)
