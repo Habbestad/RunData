@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 
-using TrackVecIt = std::vector<Track>::iterator;
+using TrackVecIt = std::vector<const Track>::iterator;
 
 class Run 
 {
@@ -30,24 +30,24 @@ public:
     Run getSectionByTime(int startTime, 
                         int endTime, 
                         const std::string& sectionName, 
-                        bool cumulative = false);
+                        bool cumulative = false) const;
 
     Run getSectionByDistance(int start, 
                             int end, 
                             const std::string& sectionName, 
-                            bool cumulative = false);
+                            bool cumulative = false) const;
 
     // Getters:
     std::string getId() const;
-    RunSummary getRunSummary();
+    RunSummary getRunSummary() const;
 
-    std::vector<int> getTimes();
-    std::vector<float> getDistances();
-    std::vector<float> getSpeeds();
-    std::vector<float> getAltitudes();
-    std::vector<float> getHR();
-    int getTotalTime();
-    float getTotalDistance();
+    std::vector<int> getTimes() const;
+    std::vector<float> getDistances() const;
+    std::vector<float> getSpeeds() const;
+    std::vector<float> getAltitudes() const;
+    std::vector<float> getHR() const;
+    int getTotalTime() const;
+    float getTotalDistance() const;
 
 
 protected:
@@ -58,13 +58,13 @@ protected:
     Run getSection(const TrackVecIt& first, 
                 const TrackVecIt& last, 
                 const std::string& sectionName,
-                bool cumulative = true);
+                bool cumulative = true) const;
 
 
 private:
     /* Some convenience functions to find start and end of sections: */
-    TrackVecIt findClosestTrackByTime(int measure);         
-    TrackVecIt findClosestTrackByDistance(int measure);
+    TrackVecIt findClosestTrackByTime(int measure) const;         
+    TrackVecIt findClosestTrackByDistance(int measure) const;
 };
 
 
@@ -77,9 +77,9 @@ public:
     Workout(std::ifstream& infile);
     Workout(const std::string& dir);
 
-    Run getLap(int lapNumber);
+    Run getLap(int lapNumber) const;
 
-    std::vector<int> getStartTimes();
+    std::vector<int> getStartTimes() const;
 
 private:
     std::vector<TrackVecIt> m_lapIts;

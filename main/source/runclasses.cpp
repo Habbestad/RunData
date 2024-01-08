@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 
-using TrackVecIt = std::vector<Track>::iterator;
+//using TrackVecIt = std::vector<const Track>::iterator;
 
 // --- Implementation of class Run ---
 
@@ -54,12 +54,11 @@ Run::Run(const std::vector<Track>& tracks, const std::string& id)
     this->m_tracks = tracks;
 }
 
-TrackVecIt Run::findClosestTrackByTime(int measure)
+TrackVecIt Run::findClosestTrackByTime(int measure) const
 {
-    TrackVecIt it;
-    it = std::find_if(m_tracks.begin(), m_tracks.end(), [&](const Track& track)
+    //TrackVecIt it;
+    auto it = std::find_if(m_tracks.begin(), m_tracks.end(), [&](const Track& track)
                                                         { return track.m_time >= measure; });
-
     if(it == m_tracks.end())
     {
         return it - 1;
@@ -68,11 +67,11 @@ TrackVecIt Run::findClosestTrackByTime(int measure)
     return (it->m_time + (it-1)->m_time > 2*measure) ? it - 1 : it;
 }
 
-TrackVecIt Run::findClosestTrackByDistance(int measure)
+TrackVecIt Run::findClosestTrackByDistance(int measure) const
 {
-    TrackVecIt it;
+    //TrackVecIt it;
     // Find the first iterator just beyond the wanted value (the wanted value might not exist)
-    it = std::find_if(m_tracks.begin(), m_tracks.end(), [&](const Track& track)
+    auto it = std::find_if(m_tracks.begin(), m_tracks.end(), [&](const Track& track)
                                                         { return track.m_distance >= measure; });
 
     if(it == m_tracks.end())
@@ -87,7 +86,7 @@ TrackVecIt Run::findClosestTrackByDistance(int measure)
 Run Run::getSection(const TrackVecIt& first, 
                     const TrackVecIt& last, 
                     const std::string& sectionName,
-                    bool cumulative)
+                    bool cumulative) const
 {
     std::vector<Track> sectionTracks(first,last+1);
 
@@ -114,7 +113,7 @@ Run Run::getSection(const TrackVecIt& first,
 Run Run::getSectionByTime(int start, 
                     int end, 
                     const std::string& sectionName, 
-                    bool cumulative)
+                    bool cumulative) const
 {
     TrackVecIt first = this->findClosestTrackByTime(start);
     TrackVecIt last = this->findClosestTrackByTime(end);
@@ -125,7 +124,7 @@ Run Run::getSectionByTime(int start,
 Run Run::getSectionByDistance(int start, 
                     int end, 
                     const std::string& sectionName, 
-                    bool cumulative)
+                    bool cumulative) const
 {
     TrackVecIt first = this->findClosestTrackByDistance(start);
     TrackVecIt last = this->findClosestTrackByDistance(end);
@@ -135,7 +134,7 @@ Run Run::getSectionByDistance(int start,
 
 std::string Run::getId() const { return m_id; }
 
-RunSummary Run::getRunSummary()
+RunSummary Run::getRunSummary() const
 {
     Track finalTrack = *(m_tracks.end() - 1);
     RunSummary runSummary(finalTrack.m_time, finalTrack.m_distance, m_id);
@@ -143,7 +142,7 @@ RunSummary Run::getRunSummary()
     return runSummary;
 }
 
-std::vector<int> Run::getTimes()
+std::vector<int> Run::getTimes() const
 { 
     std::vector<int> times(m_tracks.size());
     std::transform(m_tracks.begin(), m_tracks.end(), times.begin() ,[](const Track& track){ return track.m_time; }  );
@@ -151,7 +150,7 @@ std::vector<int> Run::getTimes()
     return times;   
 }
 
-std::vector<float> Run::getDistances()
+std::vector<float> Run::getDistances() const
 { 
     std::vector<float> distances(m_tracks.size());
     std::transform(m_tracks.begin(), m_tracks.end(), distances.begin() ,[](const Track& track){ return track.m_distance; }  );
@@ -159,7 +158,7 @@ std::vector<float> Run::getDistances()
     return distances;  
 }
 
-std::vector<float> Run::getSpeeds()
+std::vector<float> Run::getSpeeds() const
 { 
     std::vector<float> speeds(m_tracks.size());
     std::transform(m_tracks.begin(), m_tracks.end(), speeds.begin() ,[](const Track& track){ return track.m_speed; }  );
@@ -167,7 +166,7 @@ std::vector<float> Run::getSpeeds()
     return speeds;  
 }
 
-std::vector<float> Run::getAltitudes()
+std::vector<float> Run::getAltitudes() const
 { 
     std::vector<float> altitudes(m_tracks.size());
     std::transform(m_tracks.begin(), m_tracks.end(), altitudes.begin() ,[](const Track& track){ return track.m_altitude; }  );
@@ -175,7 +174,7 @@ std::vector<float> Run::getAltitudes()
     return altitudes;
  }
 
- std::vector<float> Run::getHR()
+ std::vector<float> Run::getHR() const
  {
     std::vector<float> heartRates(m_tracks.size());
     std::transform(m_tracks.begin(), m_tracks.end(), heartRates.begin() ,[](const Track& track){ return track.m_heartRate; }  ); 
@@ -183,9 +182,9 @@ std::vector<float> Run::getAltitudes()
     return heartRates;
  }
 
-int Run::getTotalTime(){ return getTimes().back(); }
+int Run::getTotalTime() const { return getTimes().back(); }
 
-float Run::getTotalDistance(){ return getDistances().back(); }
+float Run::getTotalDistance() const { return getDistances().back(); }
 
 
 // --- Implementation of class Workout ---
@@ -220,12 +219,12 @@ Workout::Workout(const std::string& dir)
     *this = Workout(infile);
 }
 
-std::vector<int> Workout::getStartTimes()
+std::vector<int> Workout::getStartTimes() const
 {
     return m_startTimes;
 }
 
-Run Workout::getLap(int lapNumber)
+Run Workout::getLap(int lapNumber) const
 {
     return getSection(m_lapIts.at(lapNumber), m_lapIts.at(lapNumber + 1), std::to_string(lapNumber), false);
 }
