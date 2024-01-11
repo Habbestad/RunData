@@ -13,29 +13,14 @@
 
 Run::Run(std::ifstream& infile)
 {
-    std::string id {tcxParsing::getData(infile, "Id")};
-    m_id = id;
-
-    /* TimeStamp is in timestamp.h and timestamp.cpp */
-    int initial_time { TimeStamp(m_id).secondsPast(0) };
+    m_id  = tcxParsing::getData(infile, "Id");
+    int initialTime { TimeStamp(m_id).secondsPast(0) };
 
     Track track;
-    std::string time_str;
-    bool done { false };
-    while(!done)
+    while(tcxParsing::findNext(infile, "Trackpoint") != EOF)
     {
-        /* See readers.h and readers.cpp to understand getData() */
-        time_str = tcxParsing::getData(infile, "Time", "Trackpoint", true);
-        done = (time_str == "Done");
-        if(!done)
-        {
-            track.m_time = TimeStamp(time_str).secondsPast(initial_time);            
-            track.m_distance = std::stof(tcxParsing::getData(infile, "DistanceMeters", "Trackpoint", true));
-            track.m_speed = std::stof(tcxParsing::getData(infile, "ns3:Speed", "Trackpoint", true));
-            track.m_altitude = std::stof(tcxParsing::getData(infile, "AltitudeMeters", "Trackpoint", false));   
-
-            m_tracks.push_back(track);
-        }
+        track.setFromTcxSection(infile, initialTime);
+        m_tracks.push_back(track);
     }
 }
 
@@ -189,19 +174,14 @@ float Run::getTotalDistance() const { return getDistances().back(); }
 Workout::Workout(std::ifstream& infile) : Run(infile)
 {
     infile.clear();
-    infile.seekg(0,infile.beg);
+    infile.seekg(0, infile.beg);
 
     int initial_time { TimeStamp(m_id).secondsPast(0) };
     std::string lapStartTime_str;
-    bool done = { false };
-    while(!done)
+    while(tcxParsing::findNext(infile, "Lap StartTime") != EOF)
     {
         lapStartTime_str = tcxParsing::getData(infile, "Time", "Lap StartTime", false);
-        done = ("Done" == lapStartTime_str);
-        if(!done)
-        {
-            m_startTimes.push_back(TimeStamp(lapStartTime_str).secondsPast(initial_time));
-        }
+        m_startTimes.push_back(TimeStamp(lapStartTime_str).secondsPast(initial_time));
     }
 
     for(int t : m_startTimes)

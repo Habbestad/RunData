@@ -5,29 +5,33 @@
 #include <vector>
 #include <numeric>
 
+#include <iostream>
+
 namespace tcxParsing
 {
 
     bool headerMatch(const std::string& line, const std::string& header)
     {
-        return line.substr(line.find_first_not_of(' ')+1, header.size()) == header;
+        return line.substr(line.find_first_not_of(' ') + 1, header.size()) == header;
     }
 
-    // This function throws away input until it finds the header.
-    void ignoreUntil(std::ifstream& infile, const std::string& header)
+    // This function throws away input until it finds the header
+    std::streampos findNext(std::ifstream& infile, const std::string& header)
     {
         std::string line;
         std::streampos prev { infile.tellg() };
-        while(std::getline(infile,line))        // read line by line
+        while(std::getline(infile, line))        // read line by line
         {
-            if(headerMatch(line,header))   
+            if(headerMatch(line, header))   
             {
                 infile.seekg(prev);
-                return;                         // if match is found we stop (so the stream is currently on the next line)
+                return infile.tellg();          // if match is found we stop (so the stream is currently on the next line)
             }
 
             prev = infile.tellg();
         }
+
+        return infile.tellg();
     }
 
     std::string getData(std::ifstream& infile, const std::string& data_header,
@@ -38,15 +42,15 @@ namespace tcxParsing
         std::string a_string;
 
         auto initial_stream_position = infile.tellg();
-        ignoreUntil(infile,segment_header);
+        findNext(infile, segment_header);
 
-        while(std::getline(infile,a_string))                      // Go through each line of the file..
+        while(std::getline(infile, a_string))                      // Go through each line of the file..
         {   
             if(headerMatch(a_string, '/' + segment_header))       // ..but stop and return "NAN" if you reached the end of the segment
             {
                 return "NAN";
             }
-            else if(headerMatch(a_string,data_header))            // ..or stop and return wanted piece of data
+            else if(headerMatch(a_string, data_header))            // ..or stop and return wanted piece of data
             {
                 if(rewind){ infile.seekg(initial_stream_position); };
 
@@ -56,7 +60,7 @@ namespace tcxParsing
             }
 
         }
-        return "Done";
+        return "EndOfFile";
     }
 
 }

@@ -12,7 +12,7 @@ namespace tcxParsing
     bool headerMatch(const std::string& line, const std::string& header);
 
     // This function throws away input until it finds the header.
-    void ignoreUntil(std::ifstream& infile, const std::string& header);
+    std::streampos findNext(std::ifstream& infile, const std::string& header);
 
     // The pieces of data in a .tcx file are written as "<data_header>PIECE_OF_DATA</data_header>" where data_header is a string describing the
     // type of data (e.g. "Time", "DistanceMeters").  The function getData() ignores everything until segment_header (typically "Trackpoint", or "Lap")
